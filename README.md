@@ -6,8 +6,6 @@ This project explores black-box optimisation (BBO), where the objective is to ma
 
 The project simulates many real-world machine learning applications where evaluating an objective is expensive, noisy or time-consuming, such as hyperparameter optimisation, engineering design, drug discovery and simulation-based optimisation. The challenge is to identify high-performing solutions while making as few queries as possible.
 
-For my career, this project provides practical experience in sequential decision-making, Bayesian optimisation and experimental design. These are valuable skills for data science and machine learning projects where optimisation must be performed with limited information.
-
 ---
 
 ## 2. Inputs and Outputs
