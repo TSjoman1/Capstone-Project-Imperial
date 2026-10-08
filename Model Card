@@ -1,0 +1,51 @@
+Part 1 – Datasheet for the BBO Capstone Dataset
+Motivation
+
+This dataset was created to support a Black-Box Optimisation (BBO) challenge in which the objective functions were unknown and expensive to evaluate. The purpose of the dataset was to guide the selection of new query points that maximise the objective value while using a limited evaluation budget. The dataset supports the development and evaluation of surrogate-assisted optimisation methods.
+
+Composition
+
+The dataset contains the initial observations supplied for eight independent black-box functions together with ten rounds of additional query coordinates and returned objective values. Each function has a different number of input variables (2–8 dimensions) and one numerical objective value. The data are stored as NumPy arrays (.npy) for the initial observations, with weekly query coordinates and outputs recorded separately. Because only a small number of evaluations is available, many regions of the search space remain unexplored.
+
+Collection Process
+
+The initial observations were provided as part of the capstone project. Additional data were collected over ten weekly iterations by submitting one candidate point for each function and recording the returned objective value. Early queries were generated using Gaussian Process Bayesian Optimisation. As more observations became available, the strategy evolved to compare several surrogate models (Gaussian Process, SVR, Random Forest, Extra Trees, Gradient Boosting and MLP), combined with trust-region optimisation and search-space partitioning inspired by published BBO research.
+
+Preprocessing and Uses
+
+The weekly observations were appended to the original datasets before each optimisation round. Features remained in their original scale because all variables were already normalised between 0 and 1. The intended use is surrogate-assisted black-box optimisation and benchmarking optimisation strategies. The dataset is not intended for supervised learning tasks outside this optimisation context because of its limited size and sparse sampling.
+
+Distribution and Maintenance
+
+The dataset is maintained as part of my BBO capstone GitHub repository together with the optimisation code and documentation. It is intended for educational purposes and should only be used in accordance with the capstone project requirements. Future updates should include additional optimisation rounds and any refinements to the optimisation strategy.
+
+Part 2 – Model Card
+Overview
+
+Model name: Multi-Surrogate Trust-Region BBO Optimiser
+
+Version: 1.0
+
+Model type: Surrogate-assisted black-box optimisation
+
+Intended Use
+
+The model is designed for expensive black-box optimisation problems where objective evaluations are limited. It is suitable for sequential optimisation tasks with continuous input variables. It is not intended for classification, prediction-only tasks or problems requiring guaranteed global optimisation.
+
+Details
+
+The optimisation strategy evolved throughout the ten rounds. Initial iterations relied primarily on Gaussian Process Bayesian Optimisation. As more observations accumulated, multiple surrogate models were compared using cross-validation, including Gaussian Processes, Support Vector Regression, Random Forests, Extra Trees, Gradient Boosting and Multi-Layer Perceptrons. Search-space partitioning and adaptive trust-region optimisation were introduced to balance exploration and exploitation. Later iterations focused increasingly on local refinement around historically successful regions while maintaining limited exploration where uncertainty remained high.
+
+Performance
+
+Performance was evaluated independently for each of the eight functions using the returned objective values. The primary metric was improvement in the best objective value over successive optimisation rounds. Several functions showed consistent improvement across the project, particularly Functions 4, 7 and 8, while others demonstrated more irregular behaviour due to limited observations or more complex response surfaces.
+
+Assumptions and Limitations
+
+The approach assumes that nearby points in the search space have similar objective values and that surrogate models can approximate the unknown objective sufficiently well for local optimisation. Performance is limited by the relatively small number of available observations, which increases the risk of overfitting and uncertainty. Some functions also appeared to contain multiple local optima or weakly informative regions that remained difficult to model accurately.
+
+Ethical Considerations
+
+Documenting the optimisation strategy, model selection process and assumptions improves transparency and reproducibility. Providing the optimisation code, recorded observations and methodology allows others to reproduce the workflow and evaluate its strengths and weaknesses. This level of documentation also makes it easier to adapt the approach responsibly to similar optimisation problems while acknowledging its assumptions and limitations.
+
+The current model card provides sufficient detail to understand how optimisation decisions were made and how the strategy evolved over the ten iterations. If the project were extended beyond the capstone, additional information such as computational requirements, cross-validation results and detailed model hyperparameters could be included to further improve reproducibility.
